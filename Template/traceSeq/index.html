@@ -1,0 +1,120 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>chage tracker</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/seq.css" %}"/>
+    <!--<script src="{% static "js/pviz-bundle.min.js" %}"></script>-->
+
+    <title>traceSeq</title>
+
+</head>
+
+<body>
+
+<div id="main">
+<h2> {{seqName}} </h2>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+function getID(event,oObject)
+{
+    var button = event.button;
+    var id = oObject.id;
+    var aa = "none"
+    if (button == 0)
+    {
+       aa = "aaState";
+    }
+    else
+    {
+       aa = "aaStruct"
+    }
+    id = id.substr(3);
+            $.ajax({
+                type: "GET",
+                url: "/traceSeq/?" + aa + "=" + id,
+                success: function(data){$('#main').html(data);},
+                failure: function(errMsg) {
+                       alert(errMsg);
+                }
+            })
+    }
+</script>
+
+    {% if seq_struct_state %}
+    <table id="seq" cellpadding="1" cellspacing="0">
+        {% for seqI,structI,stateI in seq_struct_state %}
+            {% if forloop.counter0|divisibleby:50 %}
+                <tr>
+            {% endif %}
+            <td class=
+            {% if structI == 'h' %}
+                {% if stateI == 'x' %}
+                   "helixMarked"
+                {% elif stateI == '!' %}
+                   "helixSkip"
+                {% else %}
+                   "helix"
+                {% endif %}
+            {% elif structI == 'b' %}
+                {% if stateI == 'x' %}
+                   "betaMarked"
+                {% elif stateI == '!' %}
+                   "betaSkip"
+                {% else %}
+                    "beta"
+                {% endif %}
+            {% elif structI == 'l' %}
+                {% if stateI == 'x' %}
+                   "loopMarked"
+                {% elif stateI == '!' %}
+                   "loopSkip"
+                {% else %}
+                   "loop"
+                {% endif %}
+            {% else %}
+                {% if stateI == 'x' %}
+                   "nothingMarked"
+                {% elif stateI == '!' %}
+                   "nothingSkip"
+                {% else %}
+                    "nothing"
+                {% endif %}
+            {% endif %}
+                title={{ forloop.counter}} id=id_{{ forloop.counter0 }} onclick="getID(event,this);" >
+            {{ seqI }}
+            </td>
+            {% if forloop.counter|divisibleby:50 or forloop.last %}
+               </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    {% else %}
+    empty sequence
+    {% endif %}
+
+<p>
+<table>
+<tr>
+<td class="helix">helix</td>
+<td class="beta">beta</td>
+<td class="loop">loop</td>
+<td>(middle mouse button)</td>
+</tr>
+</table>
+<table>
+<tr>
+<td class="nothing">non-processed</td>
+<td class="nothingMarked">processed</td>
+<td class="nothingSkip">skipped</td>
+<td>(left mouse button)</td>
+</tr>
+</table>
+<p>
+init_sel: <strong>{{aa_init}}</strong>
+</p>
+</div>
+
+</body>
+
+</html>

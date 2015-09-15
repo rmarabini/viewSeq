@@ -1,0 +1,64 @@
+table {
+}
+.helix {
+font-family: arial, verdana, sans-serif;
+color:blue;
+}
+.beta {
+font-family: arial, verdana, sans-serif;
+color:green;
+}
+.loop {
+font-family: arial, verdana, sans-serif;
+color:red;
+}
+.nothing {
+font-family: arial, verdana, sans-serif;
+color:black;
+}
+
+.helixMarked {
+font-family: arial, verdana, sans-serif;
+color:blue;
+font-weight: bold;
+}
+.betaMarked {
+font-family: arial, verdana, sans-serif;
+color:green;
+font-weight: bold;
+}
+.loopMarked {
+font-family: arial, verdana, sans-serif;
+color:red;
+font-weight: bold;
+}
+.nothingMarked {
+font-family: arial, verdana, sans-serif;
+color:black;
+font-weight: bold;
+}
+
+.helixSkip {
+font-family: arial, verdana, sans-serif;
+color:blue;
+font-weight: bold;
+background-color:DarkOrange ;
+}
+.betaSkip {
+font-family: arial, verdana, sans-serif;
+color:green;
+font-weight: bold;
+background-color:DarkOrange ;
+}
+.loopSkip {
+font-family: arial, verdana, sans-serif;
+color:red;
+font-weight: bold;
+background-color:DarkOrange ;
+}
+.nothingSkip {
+font-family: arial, verdana, sans-serif;
+color:black;
+font-weight: bold;
+background-color:DarkOrange ;
+}
