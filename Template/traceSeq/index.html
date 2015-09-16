@@ -84,7 +84,11 @@ function getID(event,oObject)
                 title={{ forloop.counter}} id=id_{{ forloop.counter0 }} onclick="getID(event,this);" >
             {{ seqI }}
             </td>
-            {% if forloop.counter|divisibleby:50 or forloop.last %}
+            {% if forloop.counter|divisibleby:50 %}
+               <td>&nbsp;&nbsp;&nbsp;&nbsp;{{forloop.counter}}</td>
+               </tr>
+            {% endif %}
+            {% if forloop.last %}
                </tr>
             {% endif %}
         {% endfor %}
