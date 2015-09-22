@@ -9,8 +9,8 @@ from itertools import cycle
 def index(request):
     #using GET get sequece and state
     #http://127.0.0.1:8000/traceSeq/?seqId=2
-    aa_init = -1
-    aa_end  = -1
+    aa_init = -2
+    aa_end  = -2
     aa = None
     doWhat = None
     if 'aaStruct' in request.GET:
@@ -50,8 +50,8 @@ def index(request):
             s.struct = result
         s.save()
         del request.session['aa_init']
-        aa_init = -1
-        aa_end  = -1
+        aa_init = -2
+        aa_end  = -2
       else:
           request.session['aa_init'] = int(aa) + 1
           aa_init = int(aa)
@@ -63,8 +63,8 @@ def index(request):
     seq_struct_state = zip(s.seq, s.struct,s.state)
     context_dict['seq_struct_state']=seq_struct_state
     context_dict['seqName']=s.seqName
-    context_dict['aa_init']=aa_init
-    context_dict['aa_end']=aa_end
+    context_dict['aa_init']=aa_init + 1
+    context_dict['aa_end']=aa_end + 1
 
     return render_to_response('traceSeq/index.html',
                                   context_dict,
