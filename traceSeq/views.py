@@ -70,6 +70,70 @@ def index(request):
                                   context_dict,
                                   context_instance=RequestContext(request))
 
+def indexStruct(request):
+    #using GET get sequece and state
+    #http://127.0.0.1:8000/indexStruct/?seqId=2
+    aa_init = -2
+    aa_end  = -2
+    aa = None
+    doWhat = None
+    if 'aaStruct' in request.GET:
+        seqId = request.session['seqId']
+        aa = request.GET['aaStruct']
+        doWhat='struct'
+    elif 'aaState' in request.GET:
+        seqId = request.session['seqId']
+        aa = request.GET['aaState']
+        doWhat='state'
+    else:
+        seqId = request.GET['seqId']
+        request.session['seqId'] = seqId
+        doWhat = None
+        #just in case
+        if 'aa_init' in request.session:
+             del request.session['aa_init']
+
+    s   = Seq.objects.filter(id=int(seqId))[0]
+    if doWhat is not None:
+      if 'aa_init' in request.session:
+        if doWhat == 'state':
+            keys=['x','!','.']
+            list = s.state
+        elif doWhat == 'struct':
+            keys=['h','b','l','.']
+            list = s.struct
+        aa_init = request.session['aa_init']
+        aa_end = int(aa) + 1
+        print("aa_init end",aa_init,aa_end)
+        for aaI in range (aa_init,aa_end+1):
+            result = list[0:aaI-1]+keys[(keys.index(list[aaI-1])+1)%len(keys)]+list[aaI:]
+            list = result
+        if doWhat == 'state':
+            s.state = result
+        elif doWhat == 'struct':
+            s.struct = result
+        s.save()
+        del request.session['aa_init']
+        aa_init = -2
+        aa_end  = -2
+      else:
+          request.session['aa_init'] = int(aa) + 1
+          aa_init = int(aa)
+    #create dictionary
+    context_dict={}
+    #context_dict = {'seq': s.seq}
+    #context_dict['state']=s.state
+    #context_dict['struct']=s.struct
+    seq_struct_state = zip(s.seq, s.struct,s.state)
+    context_dict['seq_struct_state']=seq_struct_state
+    context_dict['seqName']=s.seqName
+    context_dict['aa_init']=aa_init + 1
+    context_dict['aa_end']=aa_end + 1
+
+    return render_to_response('traceSeq/index_struct.html',
+                                  context_dict,
+                                  context_instance=RequestContext(request))
+
 #def updateState(request):
 #    #http://127.0.0.1:8000/traceSeq/updateState/?seqId=2&aa=34
 #    #http://127.0.0.1:8000/traceSeq/updateState/?aa=34
