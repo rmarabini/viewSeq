@@ -32,7 +32,7 @@ function getID(event,oObject)
     id = id.substr(3);
             $.ajax({
                 type: "GET",
-                url: "/traceSeq/?" + aa + "=" + id,
+                url: "/traceSeq/indexStruct/?" + aa + "=" + id,
                 success: function(data){$('#main').html(data);},
                 failure: function(errMsg) {
                        alert(errMsg);
@@ -48,7 +48,7 @@ function getID(event,oObject)
                 <tr>
             {% endif %}
             <td class=
-            {% if seqI == 'G'  or seqI == 'A' or seqI == 'S' or seqI == 'C' or seqI == 'V' or seqI == 'T' %}
+            {% if structI == 'h' %}
                 {% if stateI == 'x' %}
                    "helixMarked"
                 {% elif stateI == '!' %}
@@ -56,7 +56,7 @@ function getID(event,oObject)
                 {% else %}
                    "helix"
                 {% endif %}
-            {% elif seqI == 'P' %}
+            {% elif structI == 'b' %}
                 {% if stateI == 'x' %}
                    "betaMarked"
                 {% elif stateI == '!' %}
@@ -64,7 +64,7 @@ function getID(event,oObject)
                 {% else %}
                     "beta"
                 {% endif %}
-            {% elif seqI == 'W'  or seqI == 'R' or seqI == 'Y' or seqI == 'F' or seqI == 'H' or seqI == 'K'%}
+            {% elif structI == 'l' %}
                 {% if stateI == 'x' %}
                    "loopMarked"
                 {% elif stateI == '!' %}
@@ -100,9 +100,9 @@ function getID(event,oObject)
 <p>
 <table>
 <tr>
-<td class="helix">small</td>
-<td class="beta">proline</td>
-<td class="loop">larga</td>
+<td class="helix">helix</td>
+<td class="beta">beta</td>
+<td class="loop">loop</td>
 <td>(middle mouse button)</td>
 </tr>
 </table>
